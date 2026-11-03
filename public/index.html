@@ -1,1 +1,106 @@
-
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6b3d22">
+<title>Cửa Phật Online – Nơi gửi gắm lòng thành kính</title>
+<style>
+:root{--brown:#6b3d22;--gold:#c69b45;--cream:#fff8e9;--ink:#38271d}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(180deg,#fff7e8,#f4e4c7)}
+header{padding:24px 16px;text-align:center;color:#fff;background:linear-gradient(135deg,#4d2819,#8b552d)}
+header h1{margin:0;font-family:Georgia,serif;font-size:clamp(28px,6vw,46px);letter-spacing:1px}
+header p{margin:8px 0 0;color:#f5dfb2}
+main{max-width:980px;margin:auto;padding:18px}
+.hero{min-height:260px;border-radius:22px;display:grid;place-items:center;text-align:center;padding:24px;color:#fff;background:linear-gradient(#30190b66,#30190b88),url('https://images.unsplash.com/photo-1606293926075-69a00db kec?auto=format&fit=crop&w=1600&q=80') center/cover,#81532f;box-shadow:0 12px 30px #5c351b22}
+.hero h2{font: bold clamp(25px,5vw,38px) Georgia,serif;margin:0 0 10px}.hero p{max-width:580px;line-height:1.6;margin:0}
+.stats,.actions,.donate{background:#fffdf8;border:1px solid #ead9b9;border-radius:18px;padding:18px;margin-top:16px;box-shadow:0 6px 20px #55351b0c}
+.stats{display:flex;gap:12px;justify-content:space-around;text-align:center;flex-wrap:wrap}.stat strong{display:block;color:var(--brown);font-size:22px}
+h3{margin:0 0 12px;color:var(--brown)}.buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+button{border:0;border-radius:12px;padding:13px 16px;background:var(--brown);color:#fff;font-weight:650;font-size:15px;cursor:pointer}
+button.secondary{background:#f4e7cf;color:var(--brown);border:1px solid #dfc99f}
+button:focus,input:focus,textarea:focus{outline:3px solid #e5bf6c;outline-offset:2px}
+label{display:block;font-weight:600;margin:12px 0 6px}input,textarea{width:100%;border:1px solid #d8c6a5;border-radius:10px;padding:12px;font:inherit;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.muted{color:#786958;font-size:13px;line-height:1.5}.notice{background:#fff4d9;border-left:4px solid var(--gold);padding:12px;border-radius:8px;margin-top:12px}
+#message{min-height:24px;margin-top:10px;color:var(--brown);font-weight:600}
+footer{text-align:center;padding:26px 16px;color:#725b43;font-size:13px}
+@media(max-width:560px){.row{grid-template-columns:1fr}.hero{min-height:220px}}
+</style>
+</head>
+<body>
+<header><h1>CỬA PHẬT ONLINE</h1><p>Nơi gửi gắm lòng thành kính</p></header>
+<main>
+<section class="hero">
+  <div><h2>Một lòng hướng thiện</h2><p>Dành phút giây tĩnh tâm, gửi lời nguyện lành và gieo duyên bằng sự tự nguyện, tùy tâm.</p></div>
+</section>
+<section class="stats" aria-live="polite">
+  <div class="stat"><strong id="attendees">—</strong><span>Lượt tham dự gần đây</span></div>
+  <div class="stat"><strong id="donationCount">—</strong><span>Lượt cúng dường đã xác nhận</span></div>
+  <div class="stat"><strong id="donationTotal">—</strong><span>Tổng cúng dường đã xác nhận</span></div>
+</section>
+<section class="actions">
+<h3>Gửi lòng thành kính</h3>
+<div class="buttons">
+<button class="secondary" onclick="ritual('Thắp một nén hương lòng')">🪔 Thắp nhang</button>
+<button class="secondary" onclick="ritual('Dâng đóa hoa sen')">🪷 Dâng hoa</button>
+<button class="secondary" onclick="ritual('Dâng lễ vật')">🍎 Dâng lễ</button>
+<button class="secondary" onclick="ritual('Dành một phút tĩnh tâm')">🙏 Tĩnh tâm</button>
+</div>
+<p id="ritualMessage" class="muted" aria-live="polite">Chọn một nghi thức để bắt đầu.</p>
+</section>
+<section class="donate">
+<h3>Cúng dường tùy tâm</h3>
+<p class="muted">Không có mức cúng bắt buộc. Chỉ thực hiện khi bạn tự nguyện và đã kiểm tra rõ đơn vị tiếp nhận, mục đích sử dụng khoản đóng góp.</p>
+<form id="donationForm">
+<label for="amount">Số tiền muốn cúng dường (VNĐ)</label>
+<input id="amount" type="number" min="1000" max="100000000" step="1000" placeholder="Nhập số tiền tùy tâm" required>
+<div class="row">
+<div><label for="donorName">Tên người cúng (không bắt buộc)</label><input id="donorName" maxlength="80" placeholder="Tên của bạn"></div>
+<div><label for="messageInput">Lời nguyện (không bắt buộc)</label><input id="messageInput" maxlength="300" placeholder="Gửi lời nguyện lành"></div>
+</div>
+<label><input id="anonymous" type="checkbox" style="width:auto"> Hiển thị ẩn danh</label>
+<button type="submit" style="width:100%;margin-top:14px">Tạo thông tin cúng dường</button>
+</form>
+<div id="message" role="status"></div>
+<div id="paymentInfo" class="notice" hidden></div>
+<p class="muted">Lưu ý: Bản mẫu này chưa nhận tiền và chưa xác nhận giao dịch ngân hàng. Không chuyển khoản cho đến khi website công khai chủ thể tiếp nhận, tài khoản được ủy quyền và kênh đối soát hợp lệ.</p>
+</section>
+</main>
+<footer>Website mẫu Cửa Phật Online · Hoạt động cúng dường hoàn toàn tự nguyện</footer>
+<script>
+const money = n => new Intl.NumberFormat('vi-VN').format(Number(n)) + ' đ';
+function ritual(text){document.getElementById('ritualMessage').textContent=text+' — nguyện giữ tâm an lành.'}
+async function loadStats(){
+ try{
+  const r=await fetch('/api/stats'); if(!r.ok) throw 0; const s=await r.json();
+  document.getElementById('attendees').textContent=money(s.activeParticipantsApprox).replace(' đ','');
+  document.getElementById('donationCount').textContent=money(s.confirmedCount).replace(' đ','');
+  document.getElementById('donationTotal').textContent=money(s.totalConfirmed);
+ }catch{}
+}
+function sessionId(){
+ let id=sessionStorage.getItem('cpo_session');
+ if(!id){id=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random());sessionStorage.setItem('cpo_session',id)}
+ return id;
+}
+fetch('/api/attend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sessionId()})}).catch(()=>{});
+document.getElementById('donationForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const msg=document.getElementById('message'), box=document.getElementById('paymentInfo');
+ msg.textContent='Đang tạo yêu cầu...'; box.hidden=true;
+ const payload={
+  amount:Number(document.getElementById('amount').value),
+  donorName:document.getElementById('donorName').value,
+  message:document.getElementById('messageInput').value,
+  anonymous:document.getElementById('anonymous').checked
+ };
+ try{
+  const r=await fetch('/api/donations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const data=await r.json(); if(!r.ok) throw new Error(data.error||'Có lỗi xảy ra');
+  msg.textContent='Đã tạo mã yêu cầu #'+data.donation.id+'.';
+  box.hidden=false; box.textContent=data.payment.instruction;
+ }catch(err){msg.textContent=err.message||'Máy chủ chưa sẵn sàng. Vui lòng thử lại sau.'}
+});
+loadStats();setInterval(loadStats,30000);
+</script>
+</body></html>
